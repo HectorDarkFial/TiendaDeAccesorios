@@ -1,0 +1,90 @@
+{% extends 'core/layout.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="row">
+
+    <!-- MENSAJE DE ERROR -->
+    {% if error_message %}
+    <div class="row">
+        <div class="col">
+            <strong>{{ error_message }}</strong>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col"> 
+        <!-- TITULO -->
+        <div class="col-12">
+            <h3 style="font-family: 'Brush Script MT', cursive; color: white; font-size: 50px; text-align: center;">Agregar producto</h3>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form action="{% url 'CORE:producto_create' %}" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- NOMBRE PRODUCTO -->
+            <div >
+                <input class="form-control" type="text" name="titulo" placeholder="Ingresar nombre del producto: " required>
+            </div>
+            <br>
+            <br>
+            <div>
+
+                <!-- IMAGEN -->
+                <div >
+                    <div class="form-group">
+                        <label for="imagen" style="color: white;">Imagen del producto: </label>
+                        <input style="color: white;" type="file" class="form-control-file" name="imagen" id="imagen"
+                            placeholder="Ingresar imagen" required>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div>
+                    <!-- CATEGORIA -->
+                    <div>
+                        <select class="custom-select" name="categoria" required>
+                            <option value="" selected>---Seleccione el tipo de producto---</option>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.id }}">{{ categoria.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- DESCRIPCION -->
+                    <div>
+                        <label for="descripcion" style="color: white;">Descripcion del producto: </label>
+                        <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <div >
+                            <!-- PRECIO -->
+                            <div >
+                                <div >
+                                    <div >
+                                        <div style="color: white;">Precio del producto: $</div>
+                                    </div>
+                                    <input type="number" class="form-control" name="precio" placeholder="XXXX.XX" required>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <!-- BOTON -->
+                            <div >
+                                <button type="submit" class="btn btn-success btn-block" style="background-color: black;">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "core/layout.html" %}
+
+{% block content %}
+<!-- api de peso a dolar! -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('#conversion-form');
+  const resultDiv = document.querySelector('#result');
+  
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const pesoAmount = document.querySelector('#peso-amount').value;
+    
+    fetch('/convert_currency/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+      body: 'peso_amount=' + encodeURIComponent(pesoAmount),
+    })
+    .then(response => response.json())
+    .then(data => {
+      const dollarAmount = data.dollar_amount;
+      resultDiv.textContent = `Monto en dólares: $${dollarAmount.toFixed(2)}`;
+    })
+    .catch(error => {
+      console.log(error);
+      resultDiv.textContent = 'Error en la conversión.';
+    });
+  });
+});
+
+</script>
+
+
+
+
+<!--Contenido del carrito-->
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 mb-3">
+            <h1 class="display-4 text-center text-capitalize" style="font-family: 'Brush Script MT', cursive; color: white; font-size: 100px;">carrito</h1>
+        </div>
+
+        <!-- MENSAJE -->
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{message}}</strong> 
+        </div>
+    {% endfor %}
+{% endif %}
+
+        <div class="col-8 row border" style="text-align: center;">
+
+            <div class="col-12 p-0 mb-2">
+                <h3 class="display-4 text-capitalize mt-2" style="font-size: 2em; color: white;" > Carrito de {{usuario.username.capitalize}}</h3>
+            </div>
+
+            {% for item in items_carrito %}
+                <div class="col-12 p-0 m-0" style="text-align: center;">
+                    <p style="color: white;" class="d-flex justify-content-between align-items-center">
+                        {{ forloop.counter }}. {{item.producto.titulo.title}} - ${{ item.producto.precio }}
+                        <a href="{% url 'CORE:item_carrito_delete' item.id %}">X</a>
+                    </p>
+                </div>
+            {% empty %}
+                <div class="col-12 p-0 m-0" style="text-align: center; justify-content: center;">
+                    <p class="d-flex justify-content-between align-items-center" style="color: white; align-items: center; text-align: center; justify-content: center; display: flex;">
+                        No tiene ningun producto en el carrito
+                    </p>
+                </div>
+            {% endfor %}
+
+            <div class="col-12 p-0 m-0 my-3 row" style="align-items: center; text-align: center; justify-content: center; display: flex;">
+                <div class="col-md-5 col-lg-3 p-0">
+                    <a href="{% url 'CORE:carrito_clean' %}" class="btn btn-danger btn-block">Vaciar Carrito</a>
+                </div>
+                <div class="col-12 p-0 col-md-7 col-lg-4 mt-2 mt-md-0 pl-md-3">
+                    <button onclick="myFunction()" class="btn btn-success btn-block" style="background-color: black;">Finalizar Compra</button>
+                    <script>
+                        function myFunction() {
+                            alert("Compra realizada, gracias por comprar con nosotros!!");
+                            document.location.href='http://127.0.0.1:8000/';
+                        
+                        }
+                        </script>
+                </div>
+                <!-- usando api de peso a dolar -->
+                <div style="align-items: center; text-align: center; justify-content: center; display: flex;">
+                    <form id="conversion-form" style="display: flex; padding-top: 6px;"> 
+                        {% csrf_token %}
+                        <button type="submit" style="background: black; color: white; border: none;">Convertir a Dólares</button>
+                        <input style="width: 85px; padding-left: 2px;" type="number" name="peso_amount" id="peso-amount" required>
+                        <div id="result" style="background-color: black; padding-top: 5px; font-style: italic; color:aliceblue" ></div>
+                    </form>   
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}

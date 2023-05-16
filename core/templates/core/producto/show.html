@@ -1,0 +1,89 @@
+{% extends "core/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+<!-- api de peso a dolar! -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('#conversion-form');
+  const resultDiv = document.querySelector('#result');
+  
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const pesoAmount = document.querySelector('#peso-amount').value;
+    
+    fetch('/convert_currency/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+      body: 'peso_amount=' + encodeURIComponent(pesoAmount),
+    })
+    .then(response => response.json())
+    .then(data => {
+      const dollarAmount = data.dollar_amount;
+      resultDiv.textContent = `Monto en dólares: $${dollarAmount.toFixed(2)}`;
+    })
+    .catch(error => {
+      console.log(error);
+      resultDiv.textContent = 'Error en la conversión.';
+    });
+  });
+});
+
+</script>
+
+
+<div class="row my-5 container">
+
+    <div class="col-10 mx-auto">
+        <div class="row border">
+
+            <div class="col-md-5 p-0 ">
+                <img style="color: white;" src="{{MEDIA_URL}}{{producto.imagen.url}}" alt="{{producto.titulo}}" class="img-fluid w-100">
+            </div>
+
+            <div class="col-md-7 p-4 d-flex flex-column justify-content-between">
+                <div class="detalle-producto-content__text">
+                    <h1 style="color: white;" class="display-4 text-capitalize">{{ producto.titulo }}</h1>
+
+                    <h2 style="color: white;" class="display-4 text-capitalize mb-3">Categoria: {{ producto.categoria.descripcion }}</h2>
+
+                    <p style="color: white;">{{ producto.descripcion.capitalize }}</p>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <p style="color: white;"  class="m-0">
+                        <strong style="color: white;" >Precio(CLP):</strong> <br>
+                          
+                        ${{ producto.precio }}
+                    </p>
+                    <form action="{% url 'CORE:carrito_save' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                        {% if user.is_superuser or not user.is_authenticated %}
+                            <button type="submit" class="btn btn-success" disabled>Agregar al carrito</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-dark" >Agregar al carrito</button>
+                        {% endif %}
+                    </form>
+
+                    
+                </div>
+                <!-- usando api de peso a dolar -->
+                <form id="conversion-form" style="display: flex; padding-top: 6px;"> 
+                    {% csrf_token %}
+                    <button type="submit" style="background: black; color: white; border: none;">Convertir a Dólares</button>
+                    <input style="width: 85px; padding-left: 2px;" type="number" name="peso_amount" id="peso-amount" required>
+                    <div id="result" style="background-color: black; padding-top: 5px; font-style: italic; color:aliceblue" ></div>
+                </form>         
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

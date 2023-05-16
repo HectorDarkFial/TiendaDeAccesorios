@@ -1,0 +1,187 @@
+{% extends 'core/layout.html' %}
+
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src=""></script>
+
+{% block content %}
+
+<div class="row">
+
+    <!-- MENSAJE -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>{{message}}</strong> 
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- TITULO -->
+    <div class="col-12 md-3">
+        <h1 class="text-uppercase text-center display-4 title-form-register" style="font-family: 'Brush Script MT', cursive; color: white;" > REGISTRARSE </h1>
+    </div>
+
+    <!-- FORMULARIO -->
+    <form action="" method="POST" class="col-md-8 mx-auto">  
+        {% csrf_token %}
+
+        <!--Rut-->
+        <div class="row mt-4">
+            <div class="col-10 col-md-2 offset-md-2 text-left" style="font-weight: 600; color: white;">Rut: </div>
+            <div class="col-8 col-lg-3">
+                <input type="text" class="form-control" placeholder="Ej:20100300" maxlength="8" ><small id="emailHelp" class="text-muted" >
+                <p style="font-style: italic; color: rgb(180, 179, 179)">Ingrese los 8 digitos de su Rut</p></small></div>
+            <div class="col-4 col-md-2">
+                <input type="text" class="form-control"placeholder="Ej:K" maxlength="1" size="1"><small id="emailHelp" class="text-muted">
+                <p style="font-style: italic; color: rgb(180, 179, 179)">Numero Verificador</p></small></div>
+        </div>
+ 
+        <!-- Nombre -->
+        <div class="form-group row "> 
+            <label for="nombre" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Nombre:</label>
+            <div class="col-8 col-lg-5">
+                <input type="text" class="form-control" id="nombre" name="nombre" aria-describedat="nombreHelp" placeholder="Ej: Juan" maxlength="25">
+                <small id="nombreHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)">Ingrese su nombre</p></small>
+            </div>
+        </div>
+
+
+        <!-- Apellido -->
+        <div class="form-group row ">
+            <label for="apellido" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Apellido:</label>
+            <div class="col-8 col-lg-5">
+                <input type="text" class="form-control" id="apellido" name="apellido" aria-describedat="apellidoHelp" placeholder="Ej: Salazar" maxlength="50">
+                <small id="apellidoHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Ingrese su apellido</p></small>
+            </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group row ">
+            <label for="email" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;" >Email:</label>
+            <div class="col-8 col-lg-5">
+                <input type="text" class="form-control" id="email" name="email" aria-describedat="emailHelp" placeholder="Ej: mail@mail.com" maxlength="50">
+                <small id="emailHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Debe contener un @ y .com</p></small>
+            </div>
+        </div>
+
+
+
+        <!-- Fecha de Nacimiento -->
+        <div class="form-group row">
+            <div class="col-4 col-form-label text-left" style="font-weight: 600; color: white;" >Fecha de Nacimiento: </div>
+            <div class="col-12 col-md-5"> 
+                <input type="date"  class="form-control" >
+                <small id="emailHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Ingresar fecha de nacimiento</p></small>
+            </div>
+            </div>
+        
+
+
+        <!--Numero de telefono    V-->
+        
+
+        <div class="form-group row mt-4">
+            <label for="email" class="col-4 col-form-label text-left" id="numero" style="font-weight: 600; color: white;" >Numero de Telefono: </label>
+            <div class="col-8 col-lg-5">
+
+                
+
+                <input type="text" class="form-control" id="numero" placeholder="Ej: 56935200878" maxlength="11">
+                <small id="numero" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Ingrese el numero de telefono </p></small>
+
+
+            </div>
+        </div>
+
+        <!-- Region -->
+        <div class="row mt-2 btn-md">
+            <div class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Región:</div>
+            <div class="col-sm-12 col-md-5">   
+                <select name="cmbTipoProducto" class="form-select" id="">
+                    <option value="0"selected>Seleccionar</option>
+                    <option value="1">Metropolitana de Santiago</option>
+                    <option value="2">Valparaíso</option>
+                    <option value="3">Biobío</option>
+                    <option value="4">Maule</option>
+                    <option value="5">La Araucanía</option>
+                    <option value="7">O'Higgins</option> 
+                    <option value="8">Los Lagos</option>     
+                    <option value="9">Coquimbo</option>     
+                    <option value="10">Antofagasta</option>     
+                    <option value="11">Ñuble</option>     
+                </select>
+                <small id="emailHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Selecione una opcion</p></small>
+            </div>
+        </div>
+
+
+
+        <!-- Nivel Educacional -->
+        <div class="row mt-2 btn-md">
+            <div class="col-4 col-form-label text-left" style="font-weight: 600; color: white;"> Nivel Educacional: </div>
+            <div class="col-12 col-md-5">   
+                <select name="cmbTipoProducto" class="form-select" id="">
+                    <option value="0"selected>Seleccionar</option>
+                    <option value="1">Básica</option>
+                    <option value="2">Media</option>
+                    <option value="3">Superior</option>
+                </select>
+                <small id="emailHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> Selecione una opcion </p></small>
+            </div>
+        </div>
+
+        <!-- USUARIO -->
+        <div class="form-group row">
+            <label for="usuario" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Nombre de Usuario:</label>
+            <div class="col-8 col-lg-5">
+                <input type="text" class="form-control" id="usuario" name="username" aria-describedby="usernameHelp">
+                <small id="usernameHelp" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)"> 150 carácteres como máximo. Únicamente letras, dígitos y @/./+/-/_</p></small>
+            </div>
+        </div>
+
+
+
+        <!-- PASSWORD -->
+        <div class="form-group row ">
+            <label for="password" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Password:</label>
+            <div class="col-8 col-lg-5">
+                <input type="password" class="form-control" id="password" name="password1" aria-describedby="password1Help">
+                <small id="password1Help" class="text-muted">
+                  <p style="font-style: italic; color: rgb(180, 179, 179)">  No puede asemejarse tanto a su otra información personal. <br>
+                    Debe contener al menos 8 caracteres. <br>
+                    No puede ser una clave utilizada comúnmente. <br>
+                    No puede ser completamente numérica.</p>
+                </small>
+            </div>
+        </div>
+
+        <!-- PASSWORD REPEAT -->
+        <div class="form-group row ">
+            <label for="passwordRepeat" class="col-4 col-form-label text-left" style="font-weight: 600; color: white;">Escriba nuevamente su Password:</label>
+            <div class="col-8 col-lg-5">
+                <input type="password" class="form-control" id="passwordRepeat" name="password2" aria-describedby="password2Help">
+                <small id="password2Help" class="text-muted"> <p style="font-style: italic; color: rgb(180, 179, 179)">Repita la password anterior</p></small>
+            </div>
+        </div>
+        
+        <!-- BOTONES -->
+        <div class="form-group row mt-4">
+            <div class="col-4 col-md-4 col-lg-3 offset-4 offset-lg-4">
+                <button type="submit" class="btn btn-dark">Registrarse</button>    
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

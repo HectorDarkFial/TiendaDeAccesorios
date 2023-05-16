@@ -1,0 +1,36 @@
+{% extends "core/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="row mt-5">
+
+    <div class="row row-cols-1 row-cols-md-3 container justify-content-center">
+
+        {% for producto in productos %}
+            <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <div class="card h-100 card-img-producto-home">
+                    <img 
+                    class="card-img-top mx-auto"
+                    src="{{MEDIA_URL}}{{producto.imagen.url}}"
+                    alt="{{producto.titulo}}"
+                    >
+                    <div class="card-body text-center">
+                        <h4 class="card-title">{{ producto.titulo.title|truncatechars:30 }}</h4>
+                        <p class="card-text ">{{ producto.descripcion.capitalize|truncatechars:50 }}</p>
+                        <a href="{% url 'CORE:producto_show' producto.id %}" class="btn btn-success btn-block">Ver</a>
+
+                        {% if user.is_superuser %}
+                            <a href="{% url 'CORE:producto_edit' producto.id %}" class="btn btn-outline-secondary btn-block">Editar</a>
+                            <a href="{% url 'CORE:producto_delete' producto.id %}" class="btn btn-outline-danger btn-block">Eliminar</a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <h2 class="col-12 display-4 text-center mt-5" style="font-size: 2em; height: 30vh;">No hay productos que coincidan</h2>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
